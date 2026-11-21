@@ -1,0 +1,613 @@
+<title>Feuille de Composition CSD</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #111111;
+    --border: #333333;
+    --header-bg: #f5f5f5;
+    --accent: #1a3a6b;
+    --input-bg: #ffffff;
+    --row-alt: #f9f9f9;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    padding-block: 16px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--bg);
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+  }
+
+  .header-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .header-title {
+    text-align: center;
+    flex: 1;
+    padding: 0 12px;
+  }
+
+  .header-title .district {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .header-title .subtitle {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 8px;
+    color: var(--accent);
+  }
+
+  /* CATEGORIE SELECTOR */
+  .cat-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .cat-select label { font-weight: bold; font-size: 13px; }
+  .cat-select select {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+  }
+
+  /* AUTOCOMPLETE */
+  .autocomplete-wrap { position: relative; width: 100%; }
+  .autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    border-top: none;
+    z-index: 100;
+    max-height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  .autocomplete-list div {
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .autocomplete-list div:hover, .autocomplete-list div.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* INFOS ROW */
+  .infos {
+    display: flex;
+    gap: 16px;
+    margin: 16px 0 8px;
+    flex-wrap: wrap;
+  }
+
+  .info-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 160px;
+  }
+
+  .info-field label {
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .info-field input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 2px 4px;
+    font-size: 13px;
+    background: transparent;
+    color: var(--fg);
+    outline: none;
+    min-width: 80px;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+  }
+
+  th {
+    background: var(--header-bg);
+    border: 1px solid var(--border);
+    padding: 6px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  td {
+    border: 1px solid var(--border);
+    padding: 2px 4px;
+    height: 32px;
+  }
+
+  td.num {
+    text-align: center;
+    width: 30px;
+    font-weight: bold;
+    background: var(--header-bg);
+  }
+
+  tr:nth-child(even) td:not(.num) {
+    background: var(--row-alt);
+  }
+
+  td input[type="text"] {
+    width: 100%;
+    border: none;
+    padding: 2px 4px;
+    font-size: 13px;
+    background: transparent;
+    color: var(--fg);
+    outline: none;
+    height: 100%;
+  }
+
+  td.check-cell {
+    text-align: center;
+    width: 70px;
+  }
+
+  td input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+
+  /* STAFF TABLE */
+  .staff-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+  }
+
+  .staff-table td {
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    height: 30px;
+  }
+
+  .staff-table td.label {
+    font-weight: bold;
+    background: var(--header-bg);
+    width: 200px;
+    white-space: nowrap;
+  }
+
+  .staff-table td input {
+    width: 100%;
+    border: none;
+    padding: 2px 4px;
+    font-size: 13px;
+    background: transparent;
+    color: var(--fg);
+    outline: none;
+  }
+
+  /* RAPPELS */
+  .rappels {
+    margin-top: 20px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .rappels strong { font-weight: bold; }
+
+  .contact {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+  }
+
+  .contact a { color: var(--accent); }
+
+  /* PRINT BUTTON */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button.secondary {
+    background: #666;
+  }
+
+  button:active { opacity: 0.8; }
+
+  @media (max-width: 500px) {
+    .infos { flex-direction: column; gap: 8px; }
+    th, td { font-size: 11px; padding: 2px 3px; }
+    .header-title .district { font-size: 12px; }
+    .header-title .subtitle { font-size: 11px; }
+  }
+
+  @media print {
+    .btn-row { display: none; }
+    body { padding: 0; font-size: 11px; }
+    .page { max-width: 100%; }
+  }
+</style>
+
+<div class="page">
+
+  <div class="btn-row">
+    <button class="secondary" onclick="clearForm()">Réinitialiser</button>
+    <button onclick="window.print()">Imprimer / PDF</button>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title" style="text-align:center;width:100%">
+      <div class="district">DISTRICT DE SEINE &amp; MARNE DE FOOTBALL</div>
+      <div class="subtitle">FEUILLE DE COMPOSITION – CHALLENGES ET PLATEAUX – FOOT À 8</div>
+    </div>
+  </div>
+
+  <!-- CATEGORIE -->
+  <div class="cat-select">
+    <label>Catégorie :</label>
+    <select id="categorie" onchange="onCatChange()">
+      <option value="">-- Choisir --</option>
+      <option value="U10">U10</option>
+      <option value="U11">U11</option>
+      <option value="U12">U12</option>
+      <option value="U13">U13</option>
+    </select>
+  </div>
+
+  <!-- INFOS -->
+  <div class="infos">
+    <div class="info-field">
+      <label>Date :</label>
+      <input type="text" id="date" placeholder="jj/mm/aaaa">
+    </div>
+    <div class="info-field">
+      <label>Lieu :</label>
+      <input type="text" id="lieu" placeholder="Ville / Terrain">
+    </div>
+    <div class="info-field">
+      <label>Équipe :</label>
+      <input type="text" id="equipe" placeholder="ex: U10 – CSD n°1">
+    </div>
+  </div>
+
+  <!-- TABLEAU JOUEURS -->
+  <table>
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th style="width:115px">N° licence</th>
+        <th>NOM Prénom</th>
+        <th style="width:65px">Assistant</th>
+        <th style="width:55px">Blessé</th>
+        <th style="width:130px">Localisation blessure</th>
+      </tr>
+    </thead>
+    <tbody id="joueurs-body">
+    </tbody>
+  </table>
+
+  <!-- STAFF -->
+  <table class="staff-table">
+    <tr>
+      <td class="label">NOM Prénom de l'éducateur</td>
+      <td class="autocomplete-wrap"><input type="text" id="edu-nom" placeholder="Tapez un nom…" autocomplete="off" style="text-transform:uppercase;width:100%;border:none;padding:2px 4px;font-size:13px;background:transparent;color:var(--fg);outline:none"></td>
+      <td class="label" style="width:115px">N° licence</td>
+      <td style="min-width:115px"><input type="text" id="edu-licence" placeholder=""></td>
+    </tr>
+    <tr>
+      <td class="label">NOM Prénom du dirigeant</td>
+      <td class="autocomplete-wrap"><input type="text" id="dir-nom" placeholder="Tapez un nom…" autocomplete="off" style="text-transform:uppercase;width:100%;border:none;padding:2px 4px;font-size:13px;background:transparent;color:var(--fg);outline:none"></td>
+      <td class="label" style="width:115px">N° licence</td>
+      <td style="min-width:115px"><input type="text" id="dir-licence" placeholder=""></td>
+    </tr>
+  </table>
+
+  <!-- RAPPELS -->
+  <div class="rappels">
+    <p><strong>Rappels :</strong></p>
+    <p>La feuille de composition est à remplir impérativement avant le déroulement du plateau ou du challenge.</p>
+    <p>Chaque club présent a l'obligation de remplir par équipe le tableau ci-dessus, avec la liste de ses joueurs.</p>
+    <p><strong>La feuille de match et la feuille de composition sont à retourner au District au plus tard le Mardi suivant la rencontre.</strong></p>
+  </div>
+
+  <div class="contact">
+    Toute la correspondance doit être adressée uniquement par mail à :<br>
+    <a href="mailto:secretariat@seineetmarne.fff.fr">secretariat@seineetmarne.fff.fr</a>
+  </div>
+
+</div>
+
+<script>
+  // Liste joueurs par catégorie
+  const JOUEURS = {"U10":[{"nom":"AGHOUILES Adil","licence":"9604410242"},{"nom":"BENMOSTEFA Imrane","licence":"9604236690"},{"nom":"BENSAID Rayan","licence":"9605432153"},{"nom":"BOURARACH Chahine","licence":"9604512673"},{"nom":"BUDON Lenny","licence":"9604160689"},{"nom":"CAMAN Jayden","licence":"9604537858"},{"nom":"CHENIOUR Chahine","licence":"9604884582"},{"nom":"COULIBALY Lamine","licence":"9604035274"},{"nom":"DE OLIVEIRA FRAGA Jules","licence":"9605430401"},{"nom":"DEMOLLE Raphael","licence":"9604870194"},{"nom":"DESTAIN Liam","licence":"9605104344"},{"nom":"DIAKITE Lamine","licence":"9604551173"},{"nom":"DINGA ATIPO Jeremy","licence":"9604092586"},{"nom":"DOS SANTOS MOREIRA Railey","licence":"9604764476"},{"nom":"DULTHEO Daren","licence":"9604092553"},{"nom":"ELABDELLAOUI Liam","licence":"9604168665"},{"nom":"ETTOUHAMI Imran","licence":"9604179359"},{"nom":"FELLAH Sayann","licence":"9604536516"},{"nom":"GOURER VALENTIN Elie","licence":"9604225414"},{"nom":"JOVIAL CLAIN Jaden","licence":"9604841847"},{"nom":"KAYMAK Celal Yenis","licence":"9604609035"},{"nom":"KOKKOSSIS Elios","licence":"9604432080"},{"nom":"LAGNY Enzo","licence":"9605013504"},{"nom":"LAMRANI ALAOUI Ilyes","licence":"9604686268"},{"nom":"LATRAYE Lucas","licence":"9604059393"},{"nom":"LHATER Samy","licence":"9604884086"},{"nom":"MADI MBARAKA Johan","licence":"9604915259"},{"nom":"MARIETTE Ethan","licence":"9604093014"},{"nom":"MARIKO SYLLA Nama","licence":"9604637178"},{"nom":"MEHDAOUI Mohammed","licence":"9604494192"},{"nom":"MILLET Paul","licence":"9604486733"},{"nom":"MONTEIRO SOARES Noam","licence":"9604637127"},{"nom":"MUSTAPHA Haroun","licence":"9604168653"},{"nom":"NACERI Rayan","licence":"9604092675"},{"nom":"NSANG NFUBE Iman","licence":"9604168661"},{"nom":"PAUL DELICE Raphael","licence":"9605274854"},{"nom":"RIBEIRO ROBALO Nolan","licence":"9604069396"},{"nom":"ROBERT Celian","licence":"9604092500"},{"nom":"TADJEMOUT Mohamed","licence":"9604854104"},{"nom":"TALL Sahel","licence":"9604035262"},{"nom":"TERZI Omer","licence":"9604364807"},{"nom":"ZAGRI Wael","licence":"9604234725"},{"nom":"ZORZAN Maxence","licence":"9604092384"}],"U11":[{"nom":"AOUIMEUR Younes","licence":"9604168561"},{"nom":"ARHIN LOIAL Treyvon","licence":"9604063031"},{"nom":"BARBARINO NAUDIN Flavio","licence":"9604413251"},{"nom":"BENBACHIR Ryad","licence":"9603257511"},{"nom":"BOUCHENAFA Adem","licence":"9603951473"},{"nom":"BOUHALI Ismael","licence":"9603696354"},{"nom":"BOUQAL Imrane","licence":"9604554028"},{"nom":"BUDON Noam","licence":"9604160693"},{"nom":"CAREL Eden","licence":"9603727792"},{"nom":"CHAKER Ayden","licence":"9604092801"},{"nom":"DEJAEGER Soan","licence":"9604092971"},{"nom":"DIAS Lisandro","licence":"9603731296"},{"nom":"DOAN Liham","licence":"9604848338"},{"nom":"DUPONT Alexis","licence":"9603714598"},{"nom":"ELGUENDOUZ Aymen","licence":"9604859363"},{"nom":"ENGOMBO IPO Elie Raphael","licence":"9603739424"},{"nom":"FERNANDES LOPES Nael","licence":"9604583361"},{"nom":"GOURER VALENTIN Noe","licence":"9603992037"},{"nom":"GOURVEZ Gabriel","licence":"9603446458"},{"nom":"HAUTERVILLE Louka","licence":"9604060172"},{"nom":"ISSAD Aylan","licence":"9603378206"},{"nom":"KOKOT Roman","licence":"9604538085"},{"nom":"MEHIDI Rahim","licence":"9603714484"},{"nom":"MOUSSOKI Nolan","licence":"9603414495"},{"nom":"NAGAPOULLE Danush","licence":"9603720536"},{"nom":"NEVES Milan","licence":"9604509081"},{"nom":"PANABIERES Malik","licence":"9604092881"},{"nom":"RAHMI Lehyan","licence":"9603731294"},{"nom":"SADAOUI Badis","licence":"9603636030"},{"nom":"SANCHES Shawn","licence":"9603638826"},{"nom":"SERALINE Djahyan","licence":"9603896427"},{"nom":"SIMAKHA Lenny","licence":"9604536494"},{"nom":"SOH MBA Theo","licence":"9603661347"},{"nom":"SOUNA Sabri","licence":"9604179340"},{"nom":"TAHENNI Mayas","licence":"9603515861"},{"nom":"TAPON Sohan","licence":"9603636017"},{"nom":"TCHANA Thais","licence":"9604035267"},{"nom":"TRESOR Kayann","licence":"9604552369"},{"nom":"URSULE Liam","licence":"9604431654"},{"nom":"YKRELEF Shahyne","licence":"9603591370"},{"nom":"ZRARI Noham","licence":"9603425382"}],"U12":[{"nom":"AGHOUILES Amir","licence":"9603881360"},{"nom":"AISSAOUI Nail","licence":"9603538939"},{"nom":"ALI MOHAMED Noham","licence":"9603604761"},{"nom":"BOURARACH Jessim","licence":"9603799400"},{"nom":"BOUROUNDA RETENO Etienne","licence":"9604630066"},{"nom":"BOUTOURIA Anas","licence":"9604104981"},{"nom":"BREANT Nolan","licence":"9604014953"},{"nom":"CARON Martin","licence":"9603602527"},{"nom":"CHABANI Zayn","licence":"9603221493"},{"nom":"DE SOUSA Noah","licence":"9604523604"},{"nom":"DELGADO MEDINA Gianni","licence":"9603575951"},{"nom":"DIAS Lisandro","licence":"9603500825"},{"nom":"DJERMANI Badis","licence":"9603604904"},{"nom":"EL KIHEL Aymen","licence":"9603587268"},{"nom":"ETTOUHAMI Ilyes","licence":"9604168610"},{"nom":"FATH Amir","licence":"9603118876"},{"nom":"GHANES Ayman","licence":"9605797373"},{"nom":"GUILLOU Eden","licence":"9603674368"},{"nom":"GURHEM Timeo","licence":"9603731289"},{"nom":"HASANI Dior","licence":"9603761042"},{"nom":"KICKA Mattenzo","licence":"9603174016"},{"nom":"LABE LAMBERGET Tahys","licence":"9603189533"},{"nom":"LAOKOLE Lamadji","licence":"9603363462"},{"nom":"LAURENCE GAMEIRO JOR Jahim","licence":"9603928917"},{"nom":"MAHJOUBI Camil","licence":"9604410397"},{"nom":"MARTINS Enzo","licence":"9603819163"},{"nom":"MICAUD Arthur","licence":"9605808317"},{"nom":"MORENO Tiago","licence":"9603604887"},{"nom":"MURCY Nail","licence":"9605286485"},{"nom":"NEKHILI Adam","licence":"9603460088"},{"nom":"NEKHILI Rani","licence":"9603460085"},{"nom":"NNEBUE Prince","licence":"9603551331"},{"nom":"PIERRONNET DEHAN Aaron","licence":"9603598140"},{"nom":"POULIER Jahrell Ezechiel","licence":"9603268124"},{"nom":"REMISE Tymeo","licence":"9604068006"},{"nom":"SALAT Hedi","licence":"9603563256"},{"nom":"SELMI Ilyes","licence":"9603230800"},{"nom":"THEZAN Enzo","licence":"9603460098"},{"nom":"UGANBAYAR Enerelt","licence":"9605824125"},{"nom":"ZONGO Ishak","licence":"9603739009"}],"U13":[{"nom":"ANAJAR Adam","licence":"9604410486"},{"nom":"ANSRI Adel","licence":"9603350149"},{"nom":"AOUICHI Adil","licence":"9604774048"},{"nom":"BACHIRI Kassim","licence":"9605467476"},{"nom":"BATCHE SIKIRA Nelson","licence":"9603604930"},{"nom":"BELMEDANI Danil","licence":"9605933281"},{"nom":"BENSOUNA Sohaib","licence":"9605926179"},{"nom":"BOMMERT ADRAR Kais","licence":"9605436939"},{"nom":"BOURGUIBA Mohamed","licence":"9604469348"},{"nom":"DADOUN Nael","licence":"9603929143"},{"nom":"DAHMANE Zaid","licence":"9603221396"},{"nom":"DE OLIVEIRA FRAGA Joris","licence":"9604413498"},{"nom":"DIACK Lamine","licence":"9603195241"},{"nom":"DRHOURHI Camil","licence":"9603529728"},{"nom":"DUMONT Joshua","licence":"9602826005"},{"nom":"FATH Yacine","licence":"9603114605"},{"nom":"FRITIS Sami","licence":"9604822787"},{"nom":"GARDILLON Milan","licence":"9605803920"},{"nom":"GEROHE Jayden","licence":"9602975889"},{"nom":"HAUTERVILLE Jo Elyan","licence":"9602964929"},{"nom":"LELONG Evan","licence":"9603357990"},{"nom":"MANCILI Serkan","licence":"9603688840"},{"nom":"MBILESSIA KERTH Apollinaire","licence":"9602869045"},{"nom":"MEHIDI Naim","licence":"9603293346"},{"nom":"MEITE Ibrahim","licence":"9605412961"},{"nom":"MELCHIOR Aydan","licence":"9603265119"},{"nom":"MONSE MPIA Esaie","licence":"9603220202"},{"nom":"MONTRESOR TIMPESTA Keelan","licence":"9603230795"},{"nom":"MUKUNA MUKUNA Nohlan","licence":"9605480505"},{"nom":"NGUEPI DONGMOH Gaby","licence":"9602837975"},{"nom":"NITUSGAU Nathan","licence":"9603286261"},{"nom":"OUATTARA Rayan","licence":"9602768460"},{"nom":"PULULU Tayron","licence":"9603225040"},{"nom":"RAMAMONJISOA Lenny","licence":"9602905372"},{"nom":"RODRIGUEZ Paul","licence":"9604006000"},{"nom":"ROSSIGNON VALBERG Djanel","licence":"9603707130"},{"nom":"RUBEL Lyam","licence":"9603819162"},{"nom":"SADKI Ahmed","licence":"9605271002"},{"nom":"SALIM Amjad","licence":"9604160671"},{"nom":"SANCHES Shayron","licence":"9603638802"},{"nom":"SCHMITT Ilyes","licence":"9603259960"},{"nom":"SILVESTRE Nolhan","licence":"9603605054"},{"nom":"TCHAPMY MBAMI Gildas Florent","licence":"9603762530"},{"nom":"UDOL Sunny","licence":"9603161429"},{"nom":"YAHYAOUI Mohammed","licence":"9604405660"}]};
+
+  const EDUCATEURS = [{"nom":"AMOUSSOU TOSSOU Emmanuel","licence":"2543654684"},{"nom":"BRESLER Jean Michel","licence":"2320629272"},{"nom":"BUDON Boris","licence":"2320516623"},{"nom":"CHERY Moise","licence":"2358038947"},{"nom":"COULIBALY Stephane","licence":"2398035234"},{"nom":"DENAUX Christophe","licence":"2320507129"},{"nom":"DIAS Michel","licence":"2320226831"},{"nom":"DOUMBIA Abou Bakary","licence":"9605037197"},{"nom":"FERNANDEZ Cyril","licence":"1766224951"},{"nom":"GURHEM Julien","licence":"2319935219"},{"nom":"LE BOEDEC Anael","licence":"1020583048"},{"nom":"LEVACHER Alain","licence":"2320227604"},{"nom":"LOURENCO Tony","licence":"2388010147"},{"nom":"MANCILI Kenan","licence":"2545517267"},{"nom":"MARIAGE Patrick","licence":"2547850018"},{"nom":"MAROT David","licence":"2339981284"},{"nom":"MOREIRA Hugo","licence":"2546750753"},{"nom":"PERAZZOLO Alexandre","licence":"2320425967"},{"nom":"TAPON Loic","licence":"9604884860"},{"nom":"TRESOR Kevin","licence":"2789111365"},{"nom":"ZAGRI Iliasse","licence":"2548010450"},{"nom":"ZEGHARI Mustapha","licence":"2398042384"}];
+
+  const DIRIGEANTS = [{"nom":"AISSAOUI Amine","licence":"9605607606"},{"nom":"AIT ATMANE Kamel","licence":"1786227446"},{"nom":"ALIOUCHE Samir","licence":"2398046792"},{"nom":"ANSELME Frederic","licence":"2339976816"},{"nom":"BOUALLEGUE Hichem","licence":"2318052093"},{"nom":"BOUFERGUENE Hugo","licence":"2546681362"},{"nom":"BOUHALI Yassine","licence":"2338180234"},{"nom":"CASTEJON Christophe","licence":"2319927660"},{"nom":"CHEVALIER Franck","licence":"2398014406"},{"nom":"DA COSTA ESPANHA Helder","licence":"2358048801"},{"nom":"DENAUX Christophe","licence":"2320507129"},{"nom":"DIAS David","licence":"2330030236"},{"nom":"DOREE Marc","licence":"2300517145"},{"nom":"DRINE Hichem","licence":"9604946668"},{"nom":"DULTHEO Daniel","licence":"2348035435"},{"nom":"GALLIOT Jean Louis","licence":"9604808096"},{"nom":"GRENIER Paul","licence":"2543969862"},{"nom":"HYACINTHE Cheldy","licence":"9604063505"},{"nom":"JEAN BAPTISTE Paul","licence":"2979311930"},{"nom":"KAR I Rayane","licence":"2547418523"},{"nom":"KOKOT Damien","licence":"2329956311"},{"nom":"KONATE Ali","licence":"2368042096"},{"nom":"KOWALCZYK Vincent","licence":"2320425887"},{"nom":"LAHOUM Said","licence":"9605223122"},{"nom":"LAKHAL Achraf","licence":"9605862292"},{"nom":"LALANDE Alexis","licence":"2547344173"},{"nom":"LATRAYE Julien","licence":"2348039623"},{"nom":"LHATER Yassine","licence":"2547102353"},{"nom":"LHUILLIER Benoit","licence":"2320444509"},{"nom":"LOPHANOR Gregory","licence":"2308091097"},{"nom":"LOUDWICG Nicolas","licence":"9604196662"},{"nom":"MAKHLOUF Kamal","licence":"2339978748"},{"nom":"MALTE Jonathan","licence":"2544703094"},{"nom":"MARTINS Nicolas","licence":"2448311564"},{"nom":"MASSAER Thomas","licence":"2338145097"},{"nom":"MATEUS Jean","licence":"2310934096"},{"nom":"MET Sebastien","licence":"2378014798"},{"nom":"NASRI Fouade","licence":"2308127799"},{"nom":"PANGAN Tony","licence":"2348040381"},{"nom":"PERES Armando","licence":"2328089215"},{"nom":"SALAT Sami","licence":"2368055993"},{"nom":"SAMPAIO Christopher","licence":"2543391261"},{"nom":"SANCHES Ricardo","licence":"2545949369"},{"nom":"SERGUINI GANI Walid","licence":"9605941332"},{"nom":"SINAMALE Alix","licence":"2398054483"},{"nom":"SLOMKA Richard","licence":"9604361843"},{"nom":"SWIALKOWSKI Sylvain","licence":"1920409488"},{"nom":"TAHENNI Abdelghani","licence":"9603413220"},{"nom":"TEBANI Wasim","licence":"9604112842"},{"nom":"THEZAN Benjamin","licence":"2543375952"},{"nom":"VAMELLE Steve","licence":"2328117296"},{"nom":"WEMBAKUNGU Cedric","licence":"2411228041"},{"nom":"ZENADJI Cherif","licence":"2320334820"},{"nom":"ZORZAN Joseph","licence":"2320210934"},{"nom":"ZORZAN Romain","licence":"2368049933"}];
+
+  let currentCat = '';
+  let activeAC = null; // ligne autocomplete active
+
+  function onCatChange() {
+    currentCat = document.getElementById('categorie').value;
+    // Mettre à jour équipe si vide
+    const eq = document.getElementById('equipe');
+    if (currentCat && !eq.value) eq.value = 'CSD ' + currentCat;
+    saveForm();
+  }
+
+  function getSuggestions(val) {
+    if (!currentCat || !val) return [];
+    const q = val.toUpperCase();
+    return (JOUEURS[currentCat] || []).filter(j => j.nom.toUpperCase().includes(q)).slice(0, 8);
+  }
+
+  function showAC(input, suggestions) {
+    closeAC();
+    if (!suggestions.length) return;
+    const wrap = input.closest('.autocomplete-wrap');
+    if (!wrap) return;
+    const list = document.createElement('div');
+    list.className = 'autocomplete-list';
+    suggestions.forEach((s, idx) => {
+      const d = document.createElement('div');
+      d.textContent = s.nom;
+      d.addEventListener('mousedown', e => {
+        e.preventDefault();
+        input.value = s.nom;
+        // Staff : licInput passé directement dans l'objet
+        if (s._licInput) {
+          s._licInput.value = s.licence;
+        } else {
+          // Joueur : licence dans la première cellule de la ligne
+          const row = input.closest('tr');
+          if (row) {
+            const licInput = row.querySelectorAll('input[type="text"]')[0];
+            if (licInput) licInput.value = s.licence;
+          }
+        }
+        closeAC();
+        saveForm();
+      });
+      list.appendChild(d);
+    });
+    wrap.appendChild(list);
+    activeAC = list;
+  }
+
+  function closeAC() {
+    if (activeAC) { activeAC.remove(); activeAC = null; }
+  }
+
+  // Autocomplétion staff (éducateur + dirigeant) — logique indépendante
+  function setupStaffAC(inputId, licenceId, liste) {
+    const input = document.getElementById(inputId);
+    const licInput = document.getElementById(licenceId);
+    let acList = null;
+    let acIdx = -1;
+
+    function closeStaffAC() {
+      if (acList) { acList.remove(); acList = null; acIdx = -1; }
+    }
+
+    function selectItem(item) {
+      input.value = item.nom;
+      licInput.value = item.licence;
+      closeStaffAC();
+      saveForm();
+    }
+
+    function buildAC(sugg) {
+      closeStaffAC();
+      if (!sugg.length) return;
+      const rect = input.getBoundingClientRect();
+      acList = document.createElement('div');
+      acList.className = 'autocomplete-list';
+      acList.style.cssText = `position:fixed;top:${rect.bottom}px;left:${rect.left}px;width:${rect.width}px;z-index:9999;`;
+      sugg.forEach((s) => {
+        const d = document.createElement('div');
+        d.textContent = s.nom;
+        d.addEventListener('mousedown', e => { e.preventDefault(); selectItem(s); });
+        acList.appendChild(d);
+      });
+      document.body.appendChild(acList);
+    }
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toUpperCase();
+      const sugg = q.length >= 1 ? liste.filter(p => p.nom.toUpperCase().includes(q)).slice(0, 8) : [];
+      buildAC(sugg);
+    });
+    input.addEventListener('blur', () => setTimeout(closeStaffAC, 150));
+    input.addEventListener('keydown', e => {
+      if (!acList) return;
+      const items = acList.querySelectorAll('div');
+      if (e.key === 'ArrowDown') { e.preventDefault(); acIdx = Math.min(acIdx+1, items.length-1); items.forEach((d,i) => d.classList.toggle('active', i===acIdx)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); acIdx = Math.max(acIdx-1, 0); items.forEach((d,i) => d.classList.toggle('active', i===acIdx)); }
+      else if (e.key === 'Enter' && acIdx >= 0) { e.preventDefault(); const q = input.value.toUpperCase(); const sugg = liste.filter(p => p.nom.toUpperCase().includes(q)).slice(0,8); if (sugg[acIdx]) selectItem(sugg[acIdx]); }
+      else if (e.key === 'Escape') closeStaffAC();
+    });
+    input.addEventListener('change', saveForm);
+    licInput.addEventListener('change', saveForm);
+  }
+
+  // Générer les 12 lignes joueurs
+  const tbody = document.getElementById('joueurs-body');
+  for (let i = 1; i <= 12; i++) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="num">${i}</td>
+      <td style="min-width:115px"><input type="text" placeholder="" autocomplete="off"></td>
+      <td class="autocomplete-wrap"><input type="text" placeholder="Tapez un nom…" autocomplete="off" style="text-transform:uppercase;width:100%;border:none;padding:2px 4px;font-size:13px;background:transparent;color:var(--fg);outline:none;height:100%"></td>
+      <td class="check-cell"><input type="checkbox"></td>
+      <td class="check-cell"><input type="checkbox"></td>
+      <td><input type="text" placeholder="" autocomplete="off"></td>
+    `;
+    tbody.appendChild(tr);
+    // Attacher autocomplete sur le champ nom
+    const nomInput = tr.querySelector('.autocomplete-wrap input');
+    nomInput.addEventListener('input', () => {
+      showAC(nomInput, getSuggestions(nomInput.value));
+    });
+    nomInput.addEventListener('blur', () => setTimeout(closeAC, 150));
+    nomInput.addEventListener('keydown', e => {
+      if (!activeAC) return;
+      const items = activeAC.querySelectorAll('div');
+      let idx = [...items].findIndex(d => d.classList.contains('active'));
+      if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx+1, items.length-1); items.forEach((d,i) => d.classList.toggle('active', i===idx)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx-1, 0); items.forEach((d,i) => d.classList.toggle('active', i===idx)); }
+      else if (e.key === 'Enter' && idx >= 0) {
+          e.preventDefault();
+          const s = getSuggestions(nomInput.value)[idx];
+          if (s) {
+            nomInput.value = s.nom;
+            const row = nomInput.closest('tr');
+            if (row) {
+              const licInput = row.querySelectorAll('input[type="text"]')[0];
+              if (licInput) licInput.value = s.licence;
+            }
+          }
+          closeAC(); saveForm();
+        }
+      else if (e.key === 'Escape') closeAC();
+    });
+  }
+
+  // Sauvegarder en localStorage
+  function saveForm() {
+    try {
+      const rows = [];
+      document.querySelectorAll('#joueurs-body tr').forEach(tr => {
+        const inputs = tr.querySelectorAll('input');
+        rows.push({
+          licence: inputs[0].value,
+          nom: inputs[1].value,
+          assistant: inputs[2].checked,
+          blesse: inputs[3].checked,
+          localisation: inputs[4].value
+        });
+      });
+      localStorage.setItem('csd_feuille', JSON.stringify({
+        date: document.getElementById('date').value,
+        lieu: document.getElementById('lieu').value,
+        equipe: document.getElementById('equipe').value,
+        categorie: document.getElementById('categorie').value,
+        eduNom: document.getElementById('edu-nom').value,
+        eduLicence: document.getElementById('edu-licence').value,
+        dirNom: document.getElementById('dir-nom').value,
+        dirLicence: document.getElementById('dir-licence').value,
+        rows
+      }));
+    } catch(e) {}
+  }
+
+  function loadForm() {
+    try {
+      const data = JSON.parse(localStorage.getItem('csd_feuille') || 'null');
+      if (!data) return;
+      document.getElementById('date').value = data.date || '';
+      document.getElementById('lieu').value = data.lieu || '';
+      document.getElementById('equipe').value = data.equipe || '';
+      if (data.categorie) {
+        document.getElementById('categorie').value = data.categorie;
+        currentCat = data.categorie;
+      }
+      document.getElementById('edu-nom').value = data.eduNom || '';
+      document.getElementById('edu-licence').value = data.eduLicence || '';
+      document.getElementById('dir-nom').value = data.dirNom || '';
+      document.getElementById('dir-licence').value = data.dirLicence || '';
+      const trs = document.querySelectorAll('#joueurs-body tr');
+      (data.rows || []).forEach((r, i) => {
+        if (!trs[i]) return;
+        const inputs = trs[i].querySelectorAll('input');
+        inputs[0].value = r.licence || '';
+        inputs[1].value = r.nom || '';
+        inputs[2].checked = !!r.assistant;
+        inputs[3].checked = !!r.blesse;
+        inputs[4].value = r.localisation || '';
+      });
+    } catch(e) {}
+  }
+
+  function clearForm() {
+    if (!confirm('Réinitialiser toute la feuille ?')) return;
+    try { localStorage.removeItem('csd_feuille'); } catch(e) {}
+    document.querySelectorAll('input[type="text"]').forEach(el => el.value = '');
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+  }
+
+  // Liste unifiée : éducateurs + dirigeants triés par nom
+  const STAFF_ALL = [...EDUCATEURS, ...DIRIGEANTS].sort((a,b) => a.nom.localeCompare(b.nom));
+
+  // Initialiser autocomplétion éducateur et dirigeant (même liste)
+  setupStaffAC('edu-nom', 'edu-licence', STAFF_ALL);
+  setupStaffAC('dir-nom', 'dir-licence', STAFF_ALL);
+
+  // Auto-save à chaque modification
+  document.addEventListener('input', saveForm);
+  document.addEventListener('change', saveForm);
+
+  // Charger au démarrage
+  loadForm();
+</script>
