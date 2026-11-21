@@ -475,9 +475,16 @@
     }
 
     input.addEventListener('input', () => {
-      const q = input.value.trim().toUpperCase();
+      const raw = input.value;
+      const q = raw.trim().toUpperCase();
       const sugg = q.length >= 1 ? liste.filter(p => p.nom.toUpperCase().includes(q)).slice(0, 8) : [];
       buildAC(sugg);
+    });
+    input.addEventListener('keyup', () => {
+      // forcer la valeur en majuscules dans le champ
+      const pos = input.selectionStart;
+      input.value = input.value.toUpperCase();
+      input.setSelectionRange(pos, pos);
     });
     input.addEventListener('blur', () => setTimeout(closeStaffAC, 150));
     input.addEventListener('keydown', e => {
